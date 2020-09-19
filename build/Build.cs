@@ -152,8 +152,11 @@ class Build : NukeBuild
 		    {
 			    var assemblyNameAndVersion = item.Name;
 			    var srcFolder = assetsDoc["libraries"][assemblyNameAndVersion]["path"].ToString();
-                return ((JObject) item.Value["runtime"]).Properties().Select(x => Path.Combine(srcFolder, x.Name).Replace('/', Path.DirectorySeparatorChar));
+                return ((JObject) item.Value["runtime"])
+                    ?.Properties()
+                    .Select(x => Path.Combine(srcFolder, x.Name).Replace('/', Path.DirectorySeparatorChar)) ?? Enumerable.Empty<string>();
             })
+            .Where(x => x != null)
             .ToList();
         var projectDlls = assetsDoc["targets"][".NETFramework,Version=v4.7.2"]
             .Cast<JProperty>()

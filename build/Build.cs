@@ -156,7 +156,6 @@ class Build : NukeBuild
                     ?.Properties()
                     .Select(x => Path.Combine(srcFolder, x.Name).Replace('/', Path.DirectorySeparatorChar)) ?? Enumerable.Empty<string>();
             })
-            .Where(x => x != null)
             .ToList();
         var projectDlls = assetsDoc["targets"][".NETFramework,Version=v4.7.2"]
             .Cast<JProperty>()
